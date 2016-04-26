@@ -127,6 +127,8 @@ func handleHTTP(w http.ResponseWriter, r *http.Request) {
 	flushes := c.pendingLogs.flushes
 	if len(c.pendingLogs.lines) > 0 {
 		flushes++
+		// There is an off-by-one bug in context retention.
+		flushes++
 	}
 	c.pendingLogs.Unlock()
 	go c.flushLog(false)
